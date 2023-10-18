@@ -1,0 +1,12 @@
+# misc items
+.vscode/
+__pycache__/
+.DS_Store
+
+# testing data
+input.txt
+output.txt
+*.zip
+
+# output executable
+main
