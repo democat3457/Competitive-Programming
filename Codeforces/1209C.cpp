@@ -4,24 +4,22 @@
 #include <string>
 #include <algorithm>
 
-using namespace std;
-
 template<typename datatype>
-bool contains(datatype vec, int val) {
-    return find(vec.begin(), vec.end(), val) != vec.end();
+bool contains(const datatype &vec, int val) {
+    return vec.size() > 0 && find(vec.begin(), vec.end(), val) != vec.end();
 }
 
-string process(string origInput, vector<int> ds) {
-    deque<int> less, greater;
+std::string process(std::string origInput, std::vector<int> ds) {
+    std::deque<int> less, greater;
     if (ds.size() == 1)
         return "1";
-    vector<int> uniq;
+    std::vector<int> uniq;
     for (int i : ds) {
         if (!contains(uniq, i))
             uniq.push_back(i);
     }
     if (uniq.size() == 1)
-        return string(ds.size(), '1');
+        return std::string(ds.size(), '1');
     if (uniq.size() == 2) {
         int a,b;
         if (uniq[0] <= uniq[1]) {
@@ -31,7 +29,7 @@ string process(string origInput, vector<int> ds) {
             a = uniq[1];
             b = uniq[0];
         }
-        string newString;
+        std::string newString;
         for (int i : ds) {
             newString += (i == a) ? '1' : '2';
         }
@@ -78,9 +76,9 @@ string process(string origInput, vector<int> ds) {
             if (i > firstIneqHigh)
                 return "-";
             else if (i >= firstIneqMoving) {
-                // if (find(greater.begin(), greater.end(), i) == greater.end()) {
+                if (greater.size() == 0 || std::find(greater.begin(), greater.end(), i) == greater.end()) {
                     greater.push_back(i);
-                // }
+                }
                 if (i > greaterMax)
                     greaterMax = i;
                 if (i < greaterMin)
@@ -96,7 +94,7 @@ string process(string origInput, vector<int> ds) {
         if (i < lastIneqLow)
             return "-";
         else if (i < lastIneqHigh) {
-            if (find(less.begin(), less.end(), i) == less.end()) {
+            if (less.size() == 0 || std::find(less.begin(), less.end(), i) == less.end()) {
                 less.push_back(i);
             }
             if (i > lessMax)
@@ -107,14 +105,14 @@ string process(string origInput, vector<int> ds) {
         }
     }
     if (less.size() == 0 && greater.size() == 0)
-        return string(ds.size(), '1');
+        return std::string(ds.size(), '1');
     if (lessMax > greaterMin)
         return "-";
     sort(less.begin(), less.end());
     sort(greater.begin(), greater.end());
     bool currentLessFound=false, currentGreaterFound=false;
     int mostRecent_1 = 0, first_2 = 10;
-    string s = "";
+    std::string s = "";
     for (int i : ds) {
         // cout<<s<<" ";
         // for (int l : less) cout<<","<<l;
@@ -128,7 +126,7 @@ string process(string origInput, vector<int> ds) {
             currentLessFound = true;
             continue;
         }
-        if (currentLessFound && i >= less[less.size()-1] && i < greater[0] and !currentGreaterFound) {
+        if (currentLessFound && i >= less[less.size()-1] && i < greater[0] && !currentGreaterFound) {
             s += "2";
             if (first_2 > 9)
                 first_2 = i;
@@ -211,16 +209,16 @@ string process(string origInput, vector<int> ds) {
 
 int main() {
     int n;
-    cin >> n;
+    std::cin >> n;
     for (int i = 0; i < n; i++) {
         int m;
-        cin >> m;
-        string s;
-        cin >> s;
-        vector<int> ds;
+        std::cin >> m;
+        std::string s;
+        std::cin >> s;
+        std::vector<int> ds;
         for (char c : s) {
             ds.push_back(c-'0');
         }
-        cout << process(s, ds) << endl;
+        std::cout << process(s, ds) << std::endl;
     }
 }
