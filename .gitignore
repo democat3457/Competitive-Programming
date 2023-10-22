@@ -4,8 +4,7 @@ __pycache__/
 .DS_Store
 
 # testing data
-input.txt
-output.txt
+*.txt
 *.zip
 
 # output executable
